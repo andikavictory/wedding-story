@@ -1224,6 +1224,485 @@ body::before {
   }
 }
 
+
+/* ==========================================
+   MEMORY GALLERY - KOLASE KENANGAN
+========================================== */
+
+.memory-gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 24px;
+  margin-top: 70px;
+}
+
+.memory-tile {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: none;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+}
+
+.memory-tile .photo-frame {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #e8dfd2;
+}
+
+.memory-tile .photo-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.8s ease;
+}
+
+.memory-tile:hover .photo-frame img {
+  transform: scale(1.06);
+}
+
+.memory-tile-1 {
+  grid-column: span 7;
+  min-height: 430px;
+}
+
+.memory-tile-2 {
+  grid-column: span 5;
+  min-height: 330px;
+  margin-top: 90px;
+}
+
+.memory-tile-3,
+.memory-tile-4,
+.memory-tile-5 {
+  grid-column: span 4;
+  min-height: 290px;
+}
+
+.memory-tile-6 {
+  grid-column: span 6;
+  min-height: 360px;
+}
+
+.memory-tile-7 {
+  grid-column: span 6;
+  min-height: 360px;
+  margin-top: 55px;
+}
+
+.memory-tile-8,
+.memory-tile-9 {
+  grid-column: span 6;
+  min-height: 340px;
+}
+
+.memory-tile-10 {
+  grid-column: span 5;
+  min-height: 340px;
+}
+
+.memory-tile-11 {
+  grid-column: span 7;
+  min-height: 420px;
+  margin-top: 50px;
+}
+
+.memory-tile-12,
+.memory-tile-13,
+.memory-tile-14 {
+  grid-column: span 4;
+  min-height: 280px;
+}
+
+.memory-tile-15 {
+  grid-column: span 12;
+  min-height: 420px;
+}
+
+.memory-caption,
+.couple-caption {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  padding: 13px 2px;
+  color: var(--brown);
+}
+
+.memory-caption span,
+.couple-caption span {
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  opacity: 0.65;
+}
+
+.memory-caption p,
+.couple-caption p {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: 15px;
+  font-style: italic;
+}
+
+.gallery-note {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 25px;
+  margin-top: 70px;
+  color: var(--burgundy);
+  font-size: 9px;
+  letter-spacing: 3px;
+}
+
+/* ==========================================
+   TRANSITION TO COUPLE
+========================================== */
+
+.transition-section {
+  display: grid;
+  grid-template-columns: 1fr 0.85fr;
+  align-items: center;
+  gap: 9%;
+  padding: 140px 10%;
+  background: #eee7db;
+}
+
+.transition-decoration {
+  grid-column: 1 / -1;
+  text-align: center;
+  color: #a77c69;
+  font-size: 30px;
+  margin-bottom: -35px;
+}
+
+.transition-content h2 {
+  margin: 25px 0;
+  color: var(--brown);
+  font-family: var(--serif);
+  font-size: clamp(38px, 5vw, 65px);
+  font-weight: 400;
+  line-height: 1.15;
+}
+
+.transition-content h2 em {
+  color: var(--burgundy);
+}
+
+.transition-content > p:last-child {
+  color: #817267;
+  font-size: 13px;
+  line-height: 2;
+}
+
+.transition-image .photo-frame {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+}
+
+.transition-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ==========================================
+   COUPLE GALLERY
+========================================== */
+
+.couple-gallery {
+  background: #f7f3ec;
+}
+
+.couple-heading {
+  max-width: 700px;
+  margin: 0 auto 75px;
+  text-align: center;
+}
+
+.couple-heading h2 {
+  margin: 20px 0;
+  color: var(--brown);
+  font-family: var(--serif);
+  font-size: clamp(48px, 7vw, 80px);
+  font-weight: 400;
+  line-height: 1.1;
+}
+
+.couple-heading h2 em {
+  color: var(--burgundy);
+}
+
+.couple-heading > p:last-child {
+  color: #817267;
+  font-size: 13px;
+  line-height: 1.9;
+}
+
+.couple-gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 35px 24px;
+  align-items: start;
+}
+
+.couple-photo {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: none;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+}
+
+.couple-photo .photo-frame {
+  width: 100%;
+  overflow: hidden;
+  background: #e8dfd2;
+}
+
+.couple-photo .photo-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.8s ease;
+}
+
+.couple-photo:hover .photo-frame img {
+  transform: scale(1.05);
+}
+
+.couple-photo-1 {
+  grid-column: 2 / span 6;
+}
+
+.couple-photo-1 .photo-frame {
+  aspect-ratio: 4 / 5;
+}
+
+.couple-photo-2 {
+  grid-column: 9 / span 3;
+  margin-top: 100px;
+}
+
+.couple-photo-2 .photo-frame {
+  aspect-ratio: 3 / 4;
+}
+
+.couple-photo-3 {
+  grid-column: 1 / span 4;
+}
+
+.couple-photo-3 .photo-frame {
+  aspect-ratio: 4 / 5;
+}
+
+.couple-photo-4 {
+  grid-column: 5 / span 4;
+  margin-top: 80px;
+}
+
+.couple-photo-4 .photo-frame {
+  aspect-ratio: 4 / 5;
+}
+
+.couple-photo-5 {
+  grid-column: 9 / span 4;
+}
+
+.couple-photo-5 .photo-frame {
+  aspect-ratio: 4 / 5;
+}
+
+.couple-photo-6 {
+  grid-column: 1 / span 5;
+}
+
+.couple-photo-6 .photo-frame {
+  aspect-ratio: 4 / 5;
+}
+
+.couple-photo-7 {
+  grid-column: 7 / span 5;
+  margin-top: 100px;
+}
+
+.couple-photo-7 .photo-frame {
+  aspect-ratio: 4 / 5;
+}
+
+.couple-photo-8 {
+  grid-column: 2 / span 4;
+}
+
+.couple-photo-8 .photo-frame {
+  aspect-ratio: 4 / 5;
+}
+
+.couple-photo-9 {
+  grid-column: 6 / span 6;
+  margin-top: 70px;
+}
+
+.couple-photo-9 .photo-frame {
+  aspect-ratio: 5 / 4;
+}
+
+.couple-photo-10 {
+  grid-column: 4 / span 6;
+}
+
+.couple-photo-10 .photo-frame {
+  aspect-ratio: 4 / 5;
+}
+
+/* ==========================================
+   RESPONSIVE MOBILE
+========================================== */
+
+@media (max-width: 700px) {
+  .memory-gallery-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px 14px;
+    margin-top: 40px;
+  }
+
+  .memory-tile,
+  .memory-tile-1,
+  .memory-tile-2,
+  .memory-tile-3,
+  .memory-tile-4,
+  .memory-tile-5,
+  .memory-tile-6,
+  .memory-tile-7,
+  .memory-tile-8,
+  .memory-tile-9,
+  .memory-tile-10,
+  .memory-tile-11,
+  .memory-tile-12,
+  .memory-tile-13,
+  .memory-tile-14 {
+    grid-column: span 1;
+    min-height: 0;
+    margin-top: 0;
+  }
+
+  .memory-tile-1,
+  .memory-tile-6,
+  .memory-tile-11,
+  .memory-tile-15 {
+    grid-column: 1 / -1;
+  }
+
+  .memory-tile .photo-frame {
+    aspect-ratio: 4 / 5;
+  }
+
+  .memory-tile-1 .photo-frame,
+  .memory-tile-6 .photo-frame,
+  .memory-tile-11 .photo-frame,
+  .memory-tile-15 .photo-frame {
+    aspect-ratio: 16 / 10;
+  }
+
+  .memory-caption {
+    display: block;
+    padding: 9px 1px;
+  }
+
+  .memory-caption p {
+    margin-top: 5px;
+    font-size: 13px;
+  }
+
+  .gallery-note {
+    gap: 12px;
+    font-size: 8px;
+    letter-spacing: 1.5px;
+  }
+
+  .transition-section {
+    grid-template-columns: 1fr;
+    gap: 35px;
+    padding: 85px 7%;
+  }
+
+  .transition-decoration {
+    margin-bottom: -15px;
+  }
+
+  .transition-content h2 {
+    font-size: 40px;
+  }
+
+  .transition-image {
+    width: 85%;
+    margin: 0 auto;
+  }
+
+  .couple-heading {
+    margin-bottom: 40px;
+  }
+
+  .couple-heading h2 {
+    font-size: 52px;
+  }
+
+  .couple-gallery-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px 13px;
+  }
+
+  .couple-photo,
+  .couple-photo-1,
+  .couple-photo-2,
+  .couple-photo-3,
+  .couple-photo-4,
+  .couple-photo-5,
+  .couple-photo-6,
+  .couple-photo-7,
+  .couple-photo-8,
+  .couple-photo-9,
+  .couple-photo-10 {
+    grid-column: span 1;
+    margin-top: 0;
+  }
+
+  .couple-photo-1,
+  .couple-photo-6,
+  .couple-photo-9,
+  .couple-photo-10 {
+    grid-column: 1 / -1;
+  }
+
+  .couple-photo .photo-frame {
+    aspect-ratio: 4 / 5;
+  }
+
+  .couple-photo-1 .photo-frame,
+  .couple-photo-6 .photo-frame,
+  .couple-photo-9 .photo-frame,
+  .couple-photo-10 .photo-frame {
+    aspect-ratio: 16 / 11;
+  }
+
+  .couple-caption {
+    display: block;
+    padding: 8px 1px;
+  }
+
+  .couple-caption p {
+    margin-top: 5px;
+    font-size: 13px;
+  }
+}
+
+
 /* ==================================
    STORY - MOBILE IMPROVEMENT
 ================================== */

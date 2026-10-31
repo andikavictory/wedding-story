@@ -7,51 +7,56 @@ import "./index.css";
 gsap.registerPlugin(ScrollTrigger);
 
 // ==========================================
-// DATA FOTO KENANGAN
+// DATA FOTO KENANGAN PERSAHABATAN
 // ==========================================
 
 const memories = [
-  {
-    image: "memories_1.webp",
-    caption: "Awal dari banyak cerita",
-    number: "01",
-  },
-  {
-    image: "memories_2.webp",
-    caption: "Tawa yang selalu dirindukan",
-    number: "02",
-  },
-  {
-    image: "memories_3.webp",
-    caption: "Enam orang, satu cerita",
-    number: "03",
-  },
-  {
-    image: "memories_4.webp",
-    caption: "Waktu boleh terus berlalu",
-    number: "04",
-  },
-  {
-    image: "memories_5.webp",
-    caption: "Namun kebersamaan tetap ada",
-    number: "05",
-  },
-  {
-    image: "memories_6.webp",
-    caption: "Kenangan yang tak tergantikan",
-    number: "06",
-  },
+  { image: "memory_01.webp", caption: "Awal dari banyak cerita" },
+  { image: "memory_02.webp", caption: "Tawa yang selalu dirindukan" },
+  { image: "memory_03.webp", caption: "Tidak harus selalu lengkap" },
+  { image: "memory_04.webp", caption: "Momen sederhana, cerita luar biasa" },
+  { image: "memory_05.webp", caption: "Tempat kita berbagi cerita" },
+  { image: "memory_06.webp", caption: "Candaan yang tidak ada habisnya" },
+  { image: "memory_07.webp", caption: "Waktu yang selalu berharga" },
+  { image: "memory_08.webp", caption: "Satu lingkar, banyak cerita" },
+  { image: "memory_09.webp", caption: "Pertemuan yang selalu dirindukan" },
+  { image: "memory_10.webp", caption: "Kenangan yang tidak tergantikan" },
+  { image: "memory_11.webp", caption: "Tumbuh bersama sepanjang waktu" },
+  { image: "memory_12.webp", caption: "Selalu ada alasan untuk berkumpul" },
+  { image: "memory_13.webp", caption: "Cerita yang terus bertambah" },
+  { image: "memory_14.webp", caption: "Gondal Gandul & Kembar Suram" },
+  { image: "memory_15.webp", caption: "Bagian dari perjalanan kita" },
+];
+
+// ==========================================
+// DATA FOTO RENDY & DILLA
+// ==========================================
+
+const couplePhotos = [
+  { image: "couple_01.webp", caption: "Sebuah cerita tentang kalian" },
+  { image: "couple_02.webp", caption: "Dua hati dalam satu perjalanan" },
+  { image: "couple_03.webp", caption: "Momen yang layak dikenang" },
+  { image: "couple_04.webp", caption: "Melangkah bersama" },
+  { image: "couple_05.webp", caption: "Saling melengkapi" },
+  { image: "couple_06.webp", caption: "Cerita yang terus bertumbuh" },
+  { image: "couple_07.webp", caption: "Dalam setiap perjalanan" },
+  { image: "couple_08.webp", caption: "Hari-hari yang berarti" },
+  { image: "couple_09.webp", caption: "Menuju babak yang baru" },
+  { image: "couple_10.webp", caption: "Untuk selamanya" },
 ];
 
 // ==========================================
 // KOMPONEN FOTO
 // ==========================================
 
-function Photo({ src, alt, className = "" }) {
+function Photo({ src, alt, className = "", onClick }) {
   return (
-    <div className={`photo-frame ${className}`}>
+    <div
+      className={`photo-frame ${className}`}
+      onClick={onClick}
+    >
       <img
-        src={`/images/${src}`}
+        src={src}
         alt={alt}
         loading="lazy"
         onError={(event) => {
@@ -70,59 +75,76 @@ function Photo({ src, alt, className = "" }) {
 // ==========================================
 
 function App() {
-    const [menuOpen, setMenuOpen] = useState(false);
-    const [lightbox, setLightbox] = useState(null);
-    const [isPlaying, setIsPlaying] = useState(false);
-    const [hasOpened, setHasOpened] = useState(false);
+  const [hasOpened, setHasOpened] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [lightbox, setLightbox] = useState(null);
+  const [isPlaying, setIsPlaying] = useState(false);
 
   // ==========================================
-  // ANIMASI REVEAL SAAT SCROLL
+  // MEMUTAR MUSIK SAAT ALBUM DIBUKA
   // ==========================================
 
-// ANIMASI REVEAL SAAT SCROLL
-useEffect(() => {
-  const elements = document.querySelectorAll(".reveal");
+  const openExperience = () => {
+    const audio = document.getElementById("wedding-audio");
 
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("visible");
-          observer.unobserve(entry.target);
-        }
-      });
-    },
-    {
-      threshold: 0.05,
-      rootMargin: "0px 0px -30px 0px",
+    if (audio) {
+      audio.volume = 0.65;
+
+      audio.play()
+        .then(() => setIsPlaying(true))
+        .catch((error) => {
+          console.log("Musik belum dapat diputar:", error);
+        });
     }
-  );
 
-  elements.forEach((element) => observer.observe(element));
-
-  return () => observer.disconnect();
-}, []);
+    setHasOpened(true);
+  };
 
   // ==========================================
-  // CINEMATIC GSAP ANIMATIONS
+  // ANIMASI REVEAL
   // ==========================================
 
   useEffect(() => {
-    const mm = gsap.matchMedia();
+    const elements = document.querySelectorAll(".reveal");
 
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        threshold: 0.05,
+        rootMargin: "0px 0px -30px 0px",
+      }
+    );
+
+    elements.forEach((element) => observer.observe(element));
+
+    return () => observer.disconnect();
+  }, []);
+
+  // ==========================================
+  // ANIMASI GSAP
+  // ==========================================
+
+  useEffect(() => {
     const ctx = gsap.context(() => {
-      // Animasi normal
+      const mm = gsap.matchMedia();
+
       mm.add(
         "(prefers-reduced-motion: no-preference)",
         () => {
-          // 1. HERO PARALLAX
-
+          // Hero image parallax
           gsap.fromTo(
-            ".hero-image .photo-frame img",
-            { scale: 1.12, yPercent: -5 },
+            ".hero-image img",
+            { scale: 1.12, yPercent: -4 },
             {
               scale: 1,
-              yPercent: 5,
+              yPercent: 4,
               ease: "none",
               scrollTrigger: {
                 trigger: ".hero",
@@ -133,8 +155,7 @@ useEffect(() => {
             }
           );
 
-          // 2. HERO TEXT
-
+          // Hero text
           gsap.from(".hero-content > *", {
             opacity: 0,
             y: 35,
@@ -144,81 +165,38 @@ useEffect(() => {
             delay: 0.2,
           });
 
-          // 3. INTRODUCTION
-
-          gsap.from(".intro-heading", {
-            y: 65,
+          // Gallery memories
+          gsap.from(".memory-tile", {
             opacity: 0,
-            duration: 1.2,
+            y: 45,
+            duration: 0.8,
+            stagger: 0.08,
             ease: "power3.out",
             scrollTrigger: {
-              trigger: ".introduction",
-              start: "top 75%",
+              trigger: ".memory-gallery-grid",
+              start: "top 85%",
               toggleActions: "play none none reverse",
             },
           });
 
-          // 4. MEMORY CARDS
-
-          gsap.fromTo(
-            ".memory-card",
-            {
-              y: 50,
-              autoAlpha: 0,
+          // Couple gallery
+          gsap.from(".couple-photo", {
+            opacity: 0,
+            y: 45,
+            duration: 0.8,
+            stagger: 0.12,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: ".couple-gallery-grid",
+              start: "top 85%",
+              toggleActions: "play none none reverse",
             },
-            {
-              y: 0,
-              autoAlpha: 1,
-              duration: 0.9,
-              stagger: 0.18,
-              ease: "power3.out",
-              scrollTrigger: {
-                trigger: ".memory-grid",
-                start: "top 85%",
-                toggleActions: "play none none reverse",
-              },
-            }
-          );
+          });
 
-          // 5. STORY PARALLAX
-
+          // Closing parallax
           gsap.fromTo(
-            ".story-image .photo-frame img",
-            { scale: 1 },
-            {
-              scale: 1.18,
-              ease: "none",
-              scrollTrigger: {
-                trigger: ".story",
-                start: "top bottom",
-                end: "bottom top",
-                scrub: 1,
-              },
-            }
-          );
-
-          // 6. FAVORITE PHOTO PARALLAX
-
-          gsap.fromTo(
-            ".favorite-main .photo-frame img",
+            ".closing-image img",
             { scale: 1.12 },
-            {
-              scale: 1,
-              ease: "none",
-              scrollTrigger: {
-                trigger: ".favorite-main",
-                start: "top bottom",
-                end: "bottom top",
-                scrub: 1,
-              },
-            }
-          );
-
-          // 7. CLOSING PARALLAX
-
-          gsap.fromTo(
-            ".closing-image .photo-frame img",
-            { scale: 1.15 },
             {
               scale: 1,
               ease: "none",
@@ -233,47 +211,14 @@ useEffect(() => {
         }
       );
 
-      // STORY PIN: DESKTOP ONLY
-
-      mm.add(
-        "(prefers-reduced-motion: no-preference) and (min-width: 901px)",
-        () => {
-          const timeline = gsap.timeline({
-            scrollTrigger: {
-              trigger: ".story",
-              start: "top top",
-              end: "+=100%",
-              scrub: 1,
-              pin: true,
-              anticipatePin: 1,
-            },
-          });
-
-          timeline
-            .fromTo(
-              ".story-overlay",
-              { opacity: 1 },
-              { opacity: 0.55, duration: 1 },
-              0
-            )
-            .fromTo(
-              ".story-number",
-              { x: 80, opacity: 0 },
-              { x: 0, opacity: 1, duration: 1 },
-              0
-            );
-        }
-      );
+      return () => mm.revert();
     });
 
-    return () => {
-      mm.revert();
-      ctx.revert();
-    };
+    return () => ctx.revert();
   }, []);
 
   // ==========================================
-  // TUTUP LIGHTBOX DENGAN TOMBOL ESCAPE
+  // TUTUP LIGHTBOX DENGAN ESCAPE
   // ==========================================
 
   useEffect(() => {
@@ -291,7 +236,7 @@ useEffect(() => {
   }, []);
 
   // ==========================================
-  // NAVIGASI SCROLL
+  // NAVIGASI
   // ==========================================
 
   const scrollTo = (id) => {
@@ -302,37 +247,19 @@ useEffect(() => {
     setMenuOpen(false);
   };
 
-  // MEMBUKA ALBUM KENANGAN DAN MEMUTAR MUSIK
-const openExperience = () => {
-  const audio = document.getElementById("wedding-audio");
-
-  if (audio) {
-    audio.volume = 0.65;
-
-    const playPromise = audio.play();
-
-    if (playPromise !== undefined) {
-      playPromise
-        .then(() => setIsPlaying(true))
-        .catch((error) => {
-          console.log("Musik belum dapat diputar:", error);
-          setIsPlaying(false);
-        });
-    }
-  }
-
-  setHasOpened(true);
-};
-
   // ==========================================
-  // TAMPILAN WEBSITE
+  // LIGHTBOX
   // ==========================================
+
+  const openPhoto = (photo) => {
+    setLightbox(photo);
+  };
 
   return (
     <main>
 
-            {/* ================================== */}
-      {/* OPENING SCREEN */}
+      {/* ================================== */}
+      {/* 01 - OPENING */}
       {/* ================================== */}
 
       <div
@@ -354,9 +281,8 @@ const openExperience = () => {
           </h1>
 
           <p>
-            Dari begitu banyak cerita yang telah kita lalui,
-            hari ini ada satu cerita indah yang ingin
-            kita rayakan bersama.
+            Dari sahabat yang menyimpan begitu banyak cerita,
+            untuk dua orang yang hari ini memulai cerita baru.
           </p>
 
           <button
@@ -371,7 +297,7 @@ const openExperience = () => {
           </span>
 
           <span className="opening-music">
-            ♫ Dengarkan musik dan lihat kenangan
+            ♫ Dengarkan musik dan buka album kenangan
           </span>
         </div>
       </div>
@@ -398,135 +324,234 @@ const openExperience = () => {
             Kenangan
           </button>
 
-          <button onClick={() => scrollTo("story")}>
-            Perjalanan
+          <button onClick={() => scrollTo("couple")}>
+            Rendy & Dilla
           </button>
 
           <button onClick={() => scrollTo("letter")}>
-            Sebuah Surat
+            Ucapan
           </button>
         </div>
       </nav>
 
       {/* ================================== */}
-      {/* 01 - HERO */}
+      {/* 02 - HERO */}
       {/* ================================== */}
 
       <section className="hero" id="home">
         <div className="hero-image">
-          <Photo src="hero_1.webp" alt="Rendy dan Dilla" />
+          <Photo
+            src="/images/memories/memory_01.webp"
+            alt="Kenangan bersama sahabat"
+          />
         </div>
 
         <div className="hero-overlay" />
 
+        <div className="hero-content">
+          <p className="eyebrow light">
+            SEBUAH ALBUM DARI SAHABAT
+          </p>
 
+          <h1>
+            Sebelum Hari Ini,
+            <br />
+            Ada Begitu Banyak
+            <br />
+            <em>Cerita Kita.</em>
+          </h1>
 
-    <div className="hero-content">
-      <p className="eyebrow light">
-        SEBUAH CERITA TENTANG KITA
-      </p>
-
-      <h1>
-        Banyak Cerita,
-        <br />
-        Banyak Kenangan,
-        <br />
-        <em>Hari Ini Tentang</em>
-        <br />
-        Rendy & Dilla.
-      </h1>
-
-      <p className="hero-subtitle">
-        Dari perjalanan panjang persahabatan,
-        kini kita berkumpul untuk merayakan babak baru kalian.
-      </p>
-    </div>
-
-
+          <p className="hero-subtitle">
+            Tentang persahabatan, tawa, dan perjalanan
+            yang membawa kita sampai pada hari istimewa ini.
+          </p>
+        </div>
 
         <div className="hero-bottom">
           <span>DIBUAT DENGAN PENUH KASIH</span>
-          <span>30 . 10 . 2026</span>
+          <span>30 · 10 · 2026</span>
           <span>GULIR UNTUK MENGENANG ↓</span>
         </div>
       </section>
 
- 
-    {/* ================================== */}
-    {/* 02 - INTRODUCTION */}
-    {/* ================================== */}
+      {/* ================================== */}
+      {/* 03 - AWAL CERITA */}
+      {/* ================================== */}
 
-    <section className="introduction section-padding">
-      <div className="intro-decoration">
-        ✳
-      </div>
+      <section className="introduction section-padding">
+        <div className="intro-decoration">✳</div>
 
-      <div className="intro-content">
-        <p className="eyebrow">
-          SEBUAH CERITA YANG KITA BAGIKAN
-        </p>
+        <div className="intro-content">
+          <p className="eyebrow">
+            BABAK 01 — AWAL DARI SEGALA CERITA
+          </p>
 
-        <h2 className="intro-heading">
-          Berawal dari pertemuan,
-          <br />
-          tumbuh menjadi <em>persahabatan.</em>
-        </h2>
+          <h2 className="intro-heading">
+            Dari sebuah pertemuan,
+            <br />
+            tumbuh menjadi <em>persahabatan.</em>
+          </h2>
 
-        <p className="intro-text reveal">
-          Kita dipertemukan melalui PPA. Dari masa sekolah,
-          kebersamaan di gereja, hingga berbagai cerita yang
-          terus bertambah seiring waktu.
+          <p className="intro-text reveal">
+            Kita dipertemukan melalui PPA. Dari masa sekolah,
+            kebersamaan di gereja, hingga berbagai cerita
+            yang terus bertambah seiring waktu.
 
-          Tak terasa, kita sudah melewati begitu banyak hal
-          bersama. Kini, di tengah perjalanan hidup masing-masing,
-          ada satu momen istimewa yang mempertemukan kita kembali:
-          merayakan Rendy dan Dilla.
-        </p>
+            <br /><br />
 
-        <div className="intro-bottom">
-          <span>KENANGAN YANG TERUS BERTUMBUH</span>
-          <span>30.10.2026</span>
+            Ada Gondal Gandul, ada Kembar Suram. Dua nama
+            yang lahir dari candaan, tetapi menjadi bagian
+            dari perjalanan persahabatan yang begitu berarti.
+
+            <br /><br />
+
+            Kita tumbuh, memiliki kesibukan, dan menempuh
+            jalan masing-masing. Namun selalu ada waktu
+            untuk kembali berkumpul, berbagi cerita,
+            dan tertawa seperti biasanya.
+          </p>
+
+          <div className="intro-bottom">
+            <span>GONDAL GANDUL & KEMBAR SURAM</span>
+            <span>KENANGAN KITA</span>
+          </div>
         </div>
-      </div>
-    </section>
-
+      </section>
 
       {/* ================================== */}
-      {/* 03 - MEMORIES */}
+      {/* 04 - MEMORY GALLERY */}
       {/* ================================== */}
 
       <section className="memories section-padding" id="memories">
         <div className="section-heading reveal">
           <div>
             <p className="eyebrow">
-              BABAK 01 — KITA DAN SEGALA CERITA
+              BABAK 02 — POTONGAN KENANGAN
             </p>
 
             <h2>
-              Nama yang sederhana,
+              Enam orang, dua nama,
               <br />
-              <em>kenangan yang luar biasa.</em>
+              <em>begitu banyak cerita.</em>
             </h2>
           </div>
 
           <p className="heading-note">
-            Dua kelompok, enam orang, dan begitu banyak
-            kenangan yang tidak mungkin dihitung satu per satu.
+            Tidak semua momen harus sempurna.
+            Sebagian justru menjadi istimewa karena
+            kita menjalaninya bersama.
           </p>
         </div>
 
-        <div className="memory-grid">
+        <div className="memory-gallery-grid">
           {memories.map((item, index) => (
             <button
-              className={`memory-card memory-card-${index + 1}`}
-              key={item.number}
-              onClick={() => setLightbox(item)}
-              aria-label={`Buka foto ${item.number}`}
+              className={`memory-tile memory-tile-${(index % 6) + 1}`}
+              key={item.image}
+              onClick={() => openPhoto(item)}
+              aria-label={`Buka foto kenangan ${index + 1}`}
             >
-              <Photo src={item.image} alt={item.caption} />
+              <Photo
+                src={`/images/memories/${item.image}`}
+                alt={item.caption}
+              />
 
               <div className="memory-caption">
-                <span>{item.number} / 06</span>
+                <span>
+                  {String(index + 1).padStart(2, "0")} / 15
+                </span>
+                <p>{item.caption}</p>
+              </div>
+            </button>
+          ))}
+        </div>
+
+        <div className="gallery-note">
+          <span>GONDAL GANDUL</span>
+          <span>♡</span>
+          <span>KEMBAR SURAM</span>
+        </div>
+      </section>
+
+      {/* ================================== */}
+      {/* 05 - TRANSITION TO COUPLE */}
+      {/* ================================== */}
+
+      <section className="transition-section">
+        <div className="transition-decoration">✳</div>
+
+        <div className="transition-content reveal">
+          <p className="eyebrow">
+            BABAK 03 — CERITA YANG KITA RAYAKAN
+          </p>
+
+          <h2>
+            Dan di antara semua cerita itu,
+            <br />
+            ada <em>cerita kalian.</em>
+          </h2>
+
+          <p>
+            Di tengah perjalanan persahabatan ini,
+            ada satu momen istimewa yang ingin kita rayakan.
+            Dua sahabat yang kini melangkah bersama
+            menuju babak kehidupan yang baru.
+
+            <br /><br />
+
+            Hari ini, giliran cerita Rendy dan Dilla
+            yang menjadi kenangan indah untuk kita semua.
+          </p>
+        </div>
+
+        <div className="transition-image reveal">
+          <Photo
+            src="/images/couple/couple_01.webp"
+            alt="Rendy dan Dilla"
+            onClick={() => openPhoto(couplePhotos[0])}
+          />
+        </div>
+      </section>
+
+      {/* ================================== */}
+      {/* 06 - COUPLE GALLERY */}
+      {/* ================================== */}
+
+      <section className="couple-gallery section-padding" id="couple">
+        <div className="couple-heading reveal">
+          <p className="eyebrow">
+            BABAK 04 — RENDY & DILLA
+          </p>
+
+          <h2>
+            Dua hati,
+            <br />
+            <em>satu perjalanan.</em>
+          </h2>
+
+          <p>
+            Sepuluh potongan cerita, yang hari ini
+            menjadi bagian dari perjalanan baru kalian.
+          </p>
+        </div>
+
+        <div className="couple-gallery-grid">
+          {couplePhotos.map((item, index) => (
+            <button
+              className={`couple-photo couple-photo-${(index % 5) + 1}`}
+              key={item.image}
+              onClick={() => openPhoto(item)}
+              aria-label={`Buka foto Rendy dan Dilla ${index + 1}`}
+            >
+              <Photo
+                src={`/images/couple/${item.image}`}
+                alt={item.caption}
+              />
+
+              <div className="couple-caption">
+                <span>
+                  {String(index + 1).padStart(2, "0")}
+                </span>
                 <p>{item.caption}</p>
               </div>
             </button>
@@ -535,134 +560,19 @@ const openExperience = () => {
       </section>
 
       {/* ================================== */}
-      {/* 04 - OUR STORY */}
-      {/* ================================== */}
-
-      <section className="story" id="story">
-        <div className="story-image">
-          <Photo
-            src="ourStory_1.webp"
-            alt="Kenangan perjalanan persahabatan"
-          />
-        </div>
-
-        <div className="story-overlay" />
-
-        <div className="story-content reveal">
-          <p className="eyebrow light">
-            BABAK 02 — BERTUMBUH BERSAMA
-          </p>
-
-          <h2>
-            Dari masa sekolah,
-            <br />
-            hingga <em>sejauh ini.</em>
-          </h2>
-
-          <p>
-            Kita telah saling mengenal sejak masa SMP.
-            Ada begitu banyak hari yang dilewati bersama,
-            mulai dari kebersamaan di gereja, cerita-cerita
-            masa sekolah, hingga pertemuan sederhana yang
-            selalu berhasil menghadirkan tawa.
-            <br />
-            <br />
-            Waktu terus berjalan. Kita tumbuh, memiliki
-            kesibukan, dan menempuh jalan masing-masing.
-            Namun, entah bagaimana, selalu ada waktu yang
-            kita sisihkan untuk kembali berkumpul.
-            <br />
-            <br />
-            Mungkin itulah arti persahabatan yang sesungguhnya.
-            Tidak harus selalu bersama setiap hari, tetapi
-            selalu punya tempat untuk kembali.
-          </p>
-
-          <span className="story-signature">
-            Dengan segala kenangan yang kita punya.
-          </span>
-        </div>
-
-        <span className="story-number">02</span>
-      </section>
-
-      {/* ================================== */}
-      {/* 05 - FAVORITE MOMENTS */}
-      {/* ================================== */}
-
-      <section className="favorites section-padding">
-        <div className="favorites-heading reveal">
-          <p className="eyebrow">
-            BABAK 03 — HAL-HAL KECIL YANG BERARTI
-          </p>
-
-          <h2>
-            Bahagia ternyata sesederhana
-            <br />
-            <em>memiliki kalian.</em>
-          </h2>
-        </div>
-
-        <div className="favorite-layout">
-          <div
-            className="favorite-main reveal"
-            onClick={() => setLightbox(memories[1])}
-          >
-            <Photo
-              src="favoritMoment_1.webp"
-              alt="Salah satu kenangan bersama"
-            />
-
-            <span className="photo-index">
-              SEBUAH KENANGAN UNTUK SELALU DIINGAT · 01
-            </span>
-          </div>
-
-          <div className="favorite-side reveal">
-            <div
-              className="favorite-small"
-              onClick={() => setLightbox(memories[3])}
-            >
-              <Photo
-                src="favoritMoment_2.webp"
-                alt="Kenangan indah bersama"
-              />
-            </div>
-
-            <p>
-              Tidak semua kenangan harus menjadi peristiwa besar.
-              Kadang, yang paling kita ingat justru percakapan
-              sederhana, candaan yang tidak ada habisnya,
-              saling membantu, atau sekadar meluangkan waktu
-              untuk bertemu.
-              <br />
-              <br />
-              Kita mungkin tidak selalu menyadarinya saat itu,
-              tetapi hari ini kita tahu: hal-hal kecil itulah
-              yang membuat perjalanan ini begitu berharga.
-            </p>
-
-            <span className="favorite-ornament">
-              Dengan kasih, dari kami.
-            </span>
-          </div>
-        </div>
-      </section>
-
-      {/* ================================== */}
-      {/* 06 - A LETTER */}
+      {/* 07 - LETTER */}
       {/* ================================== */}
 
       <section className="letter-section" id="letter">
         <div className="letter-inner reveal">
           <p className="eyebrow">
-            BABAK 04 — SEBUAH SURAT DARI SAHABAT
+            BABAK 05 — SEBUAH SURAT DARI SAHABAT
           </p>
 
           <span className="letter-flower">✳</span>
 
           <h2>
-            Ada sesuatu yang ingin kami
+            Ada ucapan yang ingin kami
             <br />
             <em>sampaikan dari hati.</em>
           </h2>
@@ -673,58 +583,55 @@ const openExperience = () => {
             </span>
 
             <p>
-              Rasanya baru kemarin kita melewati hari-hari
-              sederhana bersama. Tertawa, bercanda, saling
-              membantu, dan menciptakan begitu banyak cerita
-              yang mungkin tidak akan pernah bisa kita ulang
-              dengan cara yang sama.
+              Rasanya begitu banyak cerita yang telah kita
+              lalui bersama. Dari masa sekolah, kebersamaan
+              di gereja, hingga pertemuan-pertemuan sederhana
+              yang selalu berhasil menghadirkan tawa.
             </p>
 
             <p>
-              Rendy, khusus untukmu, terima kasih sudah menjadi
-              sahabat yang luar biasa. Dari masa sekolah hingga
-              hari ini, ada begitu banyak hal yang telah kita
-              lalui. Terima kasih karena selalu ada, karena
-              tidak pernah ragu membantu, dan karena sering
-              mengingatkan ketika ada hal yang perlu diperbaiki.
-              Nasihat dan kepedulianmu adalah bagian dari
-              perjalanan yang akan selalu saya hargai.
+              Rendy, terima kasih sudah menjadi bagian
+              penting dari perjalanan persahabatan ini.
+              Terima kasih untuk bantuan, nasihat,
+              perhatian, dan pengingat yang selama ini
+              begitu berarti. Banyak hal yang akan selalu
+              saya hargai dari persahabatan kita.
             </p>
 
             <p>
-              Hari ini, kami melihatmu memulai perjalanan
-              yang berbeda. Bukan lagi hanya tentang dirimu
-              sendiri, tetapi tentang kalian berdua, tentang
-              membangun rumah, menjaga komitmen, dan belajar
-              menjalani kehidupan bersama.
+              Dan hari ini, kami turut bersukacita melihatmu
+              memulai perjalanan baru bersama Dilla.
+              Sebuah perjalanan yang akan menghadirkan
+              cerita, tanggung jawab, dan pengalaman
+              yang berbeda dari sebelumnya.
             </p>
 
             <p>
-              Dilla, selamat datang dalam babak baru ini.
-              Semoga kalian selalu menjadi tempat pulang satu
-              sama lain, saling menguatkan ketika keadaan tidak
-              mudah, dan tidak pernah kehilangan alasan untuk
-              tertawa bersama.
+              Rendy dan Dilla, semoga kalian selalu punya
+              kesabaran untuk saling memahami, kekuatan
+              untuk saling menguatkan, dan kasih untuk
+              tetap memilih satu sama lain dalam setiap keadaan.
             </p>
 
             <p>
-              Perjalanan kalian mungkin akan menghadirkan
-              banyak hal baru. Akan ada hari yang menyenangkan,
-              ada pula hari yang membutuhkan kesabaran.
-              Namun, semoga cinta, pengertian, dan Tuhan selalu
-              menjadi dasar dalam setiap langkah kalian.
+              Akan ada hari yang penuh sukacita, tetapi
+              mungkin juga ada hari yang tidak mudah.
+              Semoga kalian selalu berjalan bersama,
+              saling menjaga, dan menjadikan Tuhan
+              sebagai dasar dalam membangun kehidupan keluarga.
             </p>
 
             <p>
-              Terima kasih sudah menjadi bagian dari cerita
-              kami. Dan hari ini, izinkan kami menjadi bagian
-              kecil dari cerita indah kalian.
+              Terima kasih telah menjadi bagian dari
+              cerita kami. Hari ini, izinkan kami ikut
+              merayakan salah satu babak terindah
+              dalam kehidupan kalian.
             </p>
 
             <p>
               <strong>
-                Selamat menempuh hidup baru. Berbahagialah
-                selalu, Rendy dan Dilla.
+                Selamat menempuh hidup baru.
+                Berbahagialah selalu, Rendy dan Dilla.
               </strong>
             </p>
 
@@ -740,14 +647,14 @@ const openExperience = () => {
       </section>
 
       {/* ================================== */}
-      {/* 07 - CLOSING */}
+      {/* 08 - CLOSING */}
       {/* ================================== */}
 
       <section className="closing">
         <div className="closing-image">
           <Photo
-            src="hero_1.webp"
-            alt="Rendy dan Dilla di hari istimewa"
+            src="/images/couple/couple_10.webp"
+            alt="Rendy dan Dilla"
           />
         </div>
 
@@ -755,29 +662,30 @@ const openExperience = () => {
 
         <div className="closing-content reveal">
           <p className="eyebrow light">
-            BABAK 05 — SEBUAH AWAL YANG BARU
+            BABAK 06 — SEBUAH AWAL YANG BARU
           </p>
 
           <span className="closing-heart">♡</span>
 
           <h2>
-            Semoga cerita kalian
+            Cerita kalian
             <br />
-            <em>selalu indah.</em>
+            <em>baru saja dimulai.</em>
           </h2>
 
           <p>
-            Hari ini, satu babak indah telah dimulai.
-            Semoga perjalanan yang kalian pilih bersama
-            dipenuhi kasih, kesetiaan, kesabaran, dan sukacita.
-            <br />
-            <br />
-            Teruslah bertumbuh, saling menjaga, dan berjalan
-            bersama dalam setiap musim kehidupan.
-            <br />
-            <br />
+            Teruslah saling mengasihi, saling menjaga,
+            dan bertumbuh bersama dalam setiap musim kehidupan.
+
+            <br /><br />
+
             Dari kami yang pernah tumbuh bersama kalian,
-            selamat menempuh hidup baru.
+            doa dan harapan terbaik akan selalu menyertai
+            perjalanan baru ini.
+
+            <br /><br />
+
+            Selamat menempuh hidup baru.
           </p>
 
           <span className="closing-names">
@@ -785,7 +693,7 @@ const openExperience = () => {
           </span>
 
           <span className="closing-date">
-            SEBUAH CINTA, SEBUAH PERJALANAN, SELAMANYA
+            WITH LOVE, FROM YOUR FRIENDS
           </span>
         </div>
       </section>
@@ -797,7 +705,7 @@ const openExperience = () => {
       <footer className="footer">
         <span>DIBUAT DENGAN PENUH KASIH ♡</span>
 
-        <span>SEBUAH CERITA YANG LAYAK DIKENANG</span>
+        <span>GONDAL GANDUL & KEMBAR SURAM</span>
 
         <button onClick={() => scrollTo("home")}>
           KEMBALI KE ATAS ↑
@@ -826,7 +734,11 @@ const openExperience = () => {
             onClick={(event) => event.stopPropagation()}
           >
             <Photo
-              src={lightbox.image}
+              src={
+                memories.some((item) => item.image === lightbox.image)
+                  ? `/images/memories/${lightbox.image}`
+                  : `/images/couple/${lightbox.image}`
+              }
               alt={lightbox.caption}
             />
 
@@ -835,7 +747,7 @@ const openExperience = () => {
         </div>
       )}
 
-       {/* ================================== */}
+      {/* ================================== */}
       {/* BACKGROUND MUSIC */}
       {/* ================================== */}
 
@@ -871,6 +783,7 @@ const openExperience = () => {
           {isPlaying ? "Sedang Diputar" : "Lagu Untuk Kalian"}
         </span>
       </div>
+
     </main>
   );
 }
