@@ -79,6 +79,7 @@ function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [lightbox, setLightbox] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [scrollProgress, setScrollProgress] = useState(0);
 
   // ==========================================
   // MEMUTAR MUSIK SAAT ALBUM DIBUKA
@@ -99,6 +100,39 @@ function App() {
 
     setHasOpened(true);
   };
+
+  // ==========================================
+// PROGRESS BAR PERJALANAN ALBUM
+// ==========================================
+
+useEffect(() => {
+  const updateProgress = () => {
+    const scrollableHeight =
+      document.documentElement.scrollHeight - window.innerHeight;
+
+    if (scrollableHeight <= 0) {
+      setScrollProgress(0);
+      return;
+    }
+
+    const progress =
+      (window.scrollY / scrollableHeight) * 100;
+
+    setScrollProgress(Math.min(100, Math.max(0, progress)));
+  };
+
+  window.addEventListener("scroll", updateProgress, {
+    passive: true,
+  });
+
+  window.addEventListener("resize", updateProgress);
+  updateProgress();
+
+  return () => {
+    window.removeEventListener("scroll", updateProgress);
+    window.removeEventListener("resize", updateProgress);
+  };
+}, []);
 
   // ==========================================
   // ANIMASI REVEAL
@@ -168,9 +202,10 @@ function App() {
           // Gallery memories
           gsap.from(".memory-tile", {
             opacity: 0,
-            y: 45,
-            duration: 0.8,
-            stagger: 0.08,
+            y: 55,
+            scale: 0.97,
+            duration: 1,
+            stagger: 0.12,
             ease: "power3.out",
             scrollTrigger: {
               trigger: ".memory-gallery-grid",
@@ -182,9 +217,10 @@ function App() {
           // Couple gallery
           gsap.from(".couple-photo", {
             opacity: 0,
-            y: 45,
-            duration: 0.8,
-            stagger: 0.12,
+            y: 55,
+            scale: 0.97,
+            duration: 1,
+            stagger: 0.15,
             ease: "power3.out",
             scrollTrigger: {
               trigger: ".couple-gallery-grid",
@@ -221,19 +257,29 @@ function App() {
   // TUTUP LIGHTBOX DENGAN ESCAPE
   // ==========================================
 
-  useEffect(() => {
-    const closeOnEscape = (event) => {
-      if (event.key === "Escape") {
-        setLightbox(null);
-      }
-    };
+useEffect(() => {
+  const handleKeyDown = (event) => {
+    if (!lightbox) return;
 
-    window.addEventListener("keydown", closeOnEscape);
+    if (event.key === "Escape") {
+      closeLightbox();
+    }
 
-    return () => {
-      window.removeEventListener("keydown", closeOnEscape);
-    };
-  }, []);
+    if (event.key === "ArrowRight") {
+      changePhoto(1);
+    }
+
+    if (event.key === "ArrowLeft") {
+      changePhoto(-1);
+    }
+  };
+
+  window.addEventListener("keydown", handleKeyDown);
+
+  return () => {
+    window.removeEventListener("keydown", handleKeyDown);
+  };
+}, [lightbox]);
 
   // ==========================================
   // NAVIGASI
@@ -251,12 +297,37 @@ function App() {
   // LIGHTBOX
   // ==========================================
 
-  const openPhoto = (photo) => {
-    setLightbox(photo);
-  };
+const openPhoto = (index, type) => {
+  setLightbox({ index, type });
+};
 
-  return (
-    <main>
+const closeLightbox = () => {
+  setLightbox(null);
+};
+
+const changePhoto = (direction) => {
+  if (!lightbox) return;
+
+  const photos =
+    lightbox.type === "memory" ? memories : couplePhotos;
+
+  const nextIndex =
+    (lightbox.index + direction + photos.length) % photos.length;
+
+  setLightbox({
+    ...lightbox,
+    index: nextIndex,
+  });
+};
+
+return (
+  <main>
+    <div className="album-progress">
+      <div
+        className="album-progress-bar"
+        style={{ width: `${scrollProgress}%` }}
+      />
+    </div>
 
       {/* ================================== */}
       {/* 01 - OPENING */}
@@ -443,28 +514,36 @@ function App() {
           </p>
         </div>
 
-        <div className="memory-gallery-grid">
-          {memories.map((item, index) => (
-            <button
-              className={`memory-tile memory-tile-${(index % 6) + 1}`}
-              key={item.image}
-              onClick={() => openPhoto(item)}
-              aria-label={`Buka foto kenangan ${index + 1}`}
-            >
-              <Photo
-                src={`/images/memories/${item.image}`}
-                alt={item.caption}
-              />
 
-              <div className="memory-caption">
-                <span>
-                  {String(index + 1).padStart(2, "0")} / 15
-                </span>
-                <p>{item.caption}</p>
-              </div>
-            </button>
-          ))}
-        </div>
+      <div className="memory-gallery-grid">
+        {memories.map((item, index) => (
+          <button
+            className={`memory-tile memory-tile-${(index % 6) + 1}`}
+            key={item.image}
+            onClick={() => openPhoto(index, "memory")}
+            aria-label={`Buka foto kenangan ${index + 1}`}
+          >
+            <div className="memory-index">
+              <span>
+                {String(index + 1).padStart(2, "0")}
+              </span>
+              <span className="memory-index-total">
+                / {memories.length}
+              </span>
+            </div>
+
+            <Photo
+              src={`/images/memories/${item.image}`}
+              alt={item.caption}
+            />
+
+            <div className="memory-caption">
+              <p>{item.caption}</p>
+            </div>
+          </button>
+        ))}
+      </div>
+
 
         <div className="gallery-note">
           <span>GONDAL GANDUL</span>
@@ -508,7 +587,7 @@ function App() {
           <Photo
             src="/images/couple/couple_01.webp"
             alt="Rendy dan Dilla"
-            onClick={() => openPhoto(couplePhotos[0])}
+            onClick={() => openPhoto(0, "couple")}
           />
         </div>
       </section>
@@ -540,18 +619,20 @@ function App() {
             <button
               className={`couple-photo couple-photo-${(index % 5) + 1}`}
               key={item.image}
-              onClick={() => openPhoto(item)}
+              onClick={() => openPhoto(index, "couple")}
               aria-label={`Buka foto Rendy dan Dilla ${index + 1}`}
             >
+              <div className="couple-index">
+                <span>{String(index + 1).padStart(2, "0")}</span>
+                <span className="couple-index-total">/ {couplePhotos.length}</span>
+              </div>
+
               <Photo
                 src={`/images/couple/${item.image}`}
                 alt={item.caption}
               />
 
               <div className="couple-caption">
-                <span>
-                  {String(index + 1).padStart(2, "0")}
-                </span>
                 <p>{item.caption}</p>
               </div>
             </button>
@@ -653,7 +734,7 @@ function App() {
       <section className="closing">
         <div className="closing-image">
           <Photo
-            src="/images/couple/couple_10.webp"
+            src="/images/couple/footer.webp"
             alt="Rendy dan Dilla"
           />
         </div>
@@ -719,14 +800,25 @@ function App() {
       {lightbox && (
         <div
           className="lightbox"
-          onClick={() => setLightbox(null)}
+          onClick={closeLightbox}
         >
           <button
             className="lightbox-close"
-            onClick={() => setLightbox(null)}
+            onClick={closeLightbox}
             aria-label="Tutup foto"
           >
-            ✕
+            ×
+          </button>
+
+          <button
+            className="lightbox-nav lightbox-prev"
+            onClick={(event) => {
+              event.stopPropagation();
+              changePhoto(-1);
+            }}
+            aria-label="Foto sebelumnya"
+          >
+            ‹
           </button>
 
           <div
@@ -735,15 +827,44 @@ function App() {
           >
             <Photo
               src={
-                memories.some((item) => item.image === lightbox.image)
-                  ? `/images/memories/${lightbox.image}`
-                  : `/images/couple/${lightbox.image}`
+                lightbox.type === "memory"
+                  ? `/images/memories/${memories[lightbox.index].image}`
+                  : `/images/couple/${couplePhotos[lightbox.index].image}`
               }
-              alt={lightbox.caption}
+              alt={
+                lightbox.type === "memory"
+                  ? memories[lightbox.index].caption
+                  : couplePhotos[lightbox.index].caption
+              }
             />
 
-            <p>{lightbox.caption}</p>
+            <p className="lightbox-caption">
+              {lightbox.type === "memory"
+                ? memories[lightbox.index].caption
+                : couplePhotos[lightbox.index].caption}
+            </p>
+
+            <span className="lightbox-counter">
+              {String(lightbox.index + 1).padStart(2, "0")}
+              {" / "}
+              {String(
+                lightbox.type === "memory"
+                  ? memories.length
+                  : couplePhotos.length
+              ).padStart(2, "0")}
+            </span>
           </div>
+
+          <button
+            className="lightbox-nav lightbox-next"
+            onClick={(event) => {
+              event.stopPropagation();
+              changePhoto(1);
+            }}
+            aria-label="Foto berikutnya"
+          >
+            ›
+          </button>
         </div>
       )}
 
