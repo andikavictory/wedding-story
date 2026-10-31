@@ -12,32 +12,32 @@ gsap.registerPlugin(ScrollTrigger);
 
 const memories = [
   {
-    image: "memories_1.jpeg",
+    image: "memories_1.webp",
     caption: "Awal dari banyak cerita",
     number: "01",
   },
   {
-    image: "memories_2.jpeg",
+    image: "memories_2.webp",
     caption: "Tawa yang selalu dirindukan",
     number: "02",
   },
   {
-    image: "memories_3.jpeg",
+    image: "memories_3.webp",
     caption: "Enam orang, satu cerita",
     number: "03",
   },
   {
-    image: "memories_4.jpeg",
+    image: "memories_4.webp",
     caption: "Waktu boleh terus berlalu",
     number: "04",
   },
   {
-    image: "memories_5.jpeg",
+    image: "memories_5.webp",
     caption: "Namun kebersamaan tetap ada",
     number: "05",
   },
   {
-    image: "memories_6.jpeg",
+    image: "memories_6.webp",
     caption: "Kenangan yang tak tergantikan",
     number: "06",
   },
@@ -345,7 +345,7 @@ useEffect(() => {
 
       <section className="hero" id="home">
         <div className="hero-image">
-          <Photo src="hero_1.jpeg" alt="Rendy dan Dilla" />
+          <Photo src="hero_1.webp" alt="Rendy dan Dilla" />
         </div>
 
         <div className="hero-overlay" />
@@ -397,10 +397,10 @@ useEffect(() => {
           SEBUAH CERITA YANG KITA BAGIKAN
         </p>
 
-        <h2 className="intro-heading reveal">
+        <h2 className="intro-heading">
           Berawal dari pertemuan,
           <br />
-          tumbuh menjadi <em>persahabatan.</em>
+          tumbuh menjadi <em>persahabatan.</em>git init
         </h2>
 
         <p className="intro-text reveal">
@@ -472,7 +472,7 @@ useEffect(() => {
       <section className="story" id="story">
         <div className="story-image">
           <Photo
-            src="ourStory_1.jpeg"
+            src="ourStory_1.webp"
             alt="Kenangan perjalanan persahabatan"
           />
         </div>
@@ -540,7 +540,7 @@ useEffect(() => {
             onClick={() => setLightbox(memories[1])}
           >
             <Photo
-              src="favoritMoment_1.jpeg"
+              src="favoritMoment_1.webp"
               alt="Salah satu kenangan bersama"
             />
 
@@ -555,7 +555,7 @@ useEffect(() => {
               onClick={() => setLightbox(memories[3])}
             >
               <Photo
-                src="favoritMoment_2.jpg"
+                src="favoritMoment_2.webp"
                 alt="Kenangan indah bersama"
               />
             </div>
@@ -677,7 +677,7 @@ useEffect(() => {
       <section className="closing">
         <div className="closing-image">
           <Photo
-            src="hero_1.jpeg"
+            src="hero_1.webp"
             alt="Rendy dan Dilla di hari istimewa"
           />
         </div>
