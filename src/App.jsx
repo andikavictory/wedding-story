@@ -348,6 +348,27 @@ const changePhoto = (direction) => {
   });
 };
 
+
+  // ==========================================
+  // LOCK SCROLL WHEN LIGHTBOX IS OPEN
+  // ==========================================
+
+  useEffect(() => {
+    if (lightbox) {
+      document.body.style.overflow = "hidden";
+      document.documentElement.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+      document.documentElement.style.overflow = "";
+    }
+
+    return () => {
+      document.body.style.overflow = "";
+      document.documentElement.style.overflow = "";
+    };
+  }, [lightbox]);
+
+
 return (
   <main>
           {/* ================================== */}

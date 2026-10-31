@@ -2936,3 +2936,31 @@ body::before {
   }
 }
 
+
+/* ==========================================
+   LIGHTBOX SCROLL LOCK
+========================================== */
+
+.lightbox {
+  overscroll-behavior: contain;
+  touch-action: none;
+}
+
+.lightbox-content {
+  touch-action: pan-y;
+  overscroll-behavior: contain;
+}
+
+.lightbox-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  line-height: 1;
+  text-align: center;
+  font-family: Arial, sans-serif;
+}
+
+.lightbox-nav {
+  transform: translateY(-2px);
+}
