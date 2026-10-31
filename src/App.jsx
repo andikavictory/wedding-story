@@ -76,11 +76,39 @@ function Photo({ src, alt, className = "", onClick }) {
 
 function App() {
   const [hasOpened, setHasOpened] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [menuOpen, setMenuOpen] = useState(false);
   const [lightbox, setLightbox] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
   const [letterOpened, setLetterOpened] = useState(false);
+
+  
+  // ==========================================
+  // LOADING SCREEN
+  // ==========================================
+
+  useEffect(() => {
+    let timer;
+
+    const hideLoader = () => {
+      timer = setTimeout(() => {
+        setIsLoading(false);
+      }, 900);
+    };
+
+    if (document.readyState === "complete") {
+      hideLoader();
+    } else {
+      window.addEventListener("load", hideLoader);
+    }
+
+    return () => {
+      window.removeEventListener("load", hideLoader);
+      clearTimeout(timer);
+    };
+  }, []);
+
 
   // ==========================================
   // MEMUTAR MUSIK SAAT ALBUM DIBUKA
@@ -215,18 +243,17 @@ useEffect(() => {
             },
           });
 
-          // Couple gallery
+          // Couple gallery - optimized
           gsap.from(".couple-photo", {
             opacity: 0,
-            y: 55,
-            scale: 0.97,
-            duration: 1,
-            stagger: 0.15,
-            ease: "power3.out",
+            y: 25,
+            duration: 0.65,
+            stagger: 0.08,
+            ease: "power2.out",
             scrollTrigger: {
               trigger: ".couple-gallery-grid",
-              start: "top 85%",
-              toggleActions: "play none none reverse",
+              start: "top 90%",
+              toggleActions: "play none none none",
             },
           });
 
@@ -323,6 +350,32 @@ const changePhoto = (direction) => {
 
 return (
   <main>
+          {/* ================================== */}
+          {/* LOADING SCREEN */}
+          {/* ================================== */}
+
+          <div className={`loading-screen ${isLoading ? "" : "loading-hidden"}`}>
+            <div className="loading-content">
+              <span className="loading-ornament">✳</span>
+
+              <p className="loading-eyebrow">
+                A STORY OF LOVE & FRIENDSHIP
+              </p>
+
+              <h1>
+                Rendy <em>&</em> Dilla.
+              </h1>
+
+              <div className="loading-line">
+                <div className="loading-line-progress" />
+              </div>
+
+              <span className="loading-caption">
+                MENYIAPKAN ALBUM KENANGAN
+              </span>
+            </div>
+          </div>
+
     <div className="album-progress">
       <div
         className="album-progress-bar"

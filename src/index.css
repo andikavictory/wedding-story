@@ -2800,3 +2800,139 @@ body::before {
     margin-top: 35px;
   }
 }
+
+/* ==========================================
+   LOADING SCREEN
+========================================== */
+
+.loading-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #eee7dc;
+  transition:
+    opacity 0.8s ease,
+    visibility 0.8s ease;
+}
+
+.loading-hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.loading-content {
+  width: 90%;
+  max-width: 420px;
+  text-align: center;
+  animation: loadingAppear 1s ease both;
+}
+
+.loading-ornament {
+  display: block;
+  margin-bottom: 28px;
+  font-size: 30px;
+  color: #a47b55;
+  animation: loadingRotate 8s linear infinite;
+}
+
+.loading-eyebrow {
+  font-size: 9px;
+  letter-spacing: 4px;
+  color: #92745e;
+}
+
+.loading-content h1 {
+  margin: 20px 0 35px;
+  font-family: "Playfair Display", serif;
+  font-size: clamp(38px, 7vw, 55px);
+  font-weight: 400;
+  color: #49352d;
+}
+
+.loading-content h1 em {
+  color: #a47b55;
+}
+
+.loading-line {
+  width: 150px;
+  height: 1px;
+  margin: auto;
+  overflow: hidden;
+  background: rgba(164, 123, 85, 0.2);
+}
+
+.loading-line-progress {
+  width: 40%;
+  height: 100%;
+  background: #986d55;
+  animation: loadingProgress 1.5s ease-in-out infinite;
+}
+
+.loading-caption {
+  display: block;
+  margin-top: 18px;
+  font-size: 8px;
+  letter-spacing: 3px;
+  color: #92745e;
+}
+
+@keyframes loadingProgress {
+  from {
+    transform: translateX(-100%);
+  }
+
+  to {
+    transform: translateX(350%);
+  }
+}
+
+@keyframes loadingRotate {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes loadingAppear {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+
+/* ==========================================
+   MOBILE PERFORMANCE OPTIMIZATION
+========================================== */
+
+.photo-frame img {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.couple-photo,
+.memory-tile {
+  transform: translateZ(0);
+}
+
+@media (max-width: 768px) {
+  .couple-photo,
+  .memory-tile {
+    transition: none;
+  }
+
+  .couple-photo .photo-frame img,
+  .memory-tile .photo-frame img {
+    transition: none;
+  }
+}
+
