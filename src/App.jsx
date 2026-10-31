@@ -80,6 +80,7 @@ function App() {
   const [lightbox, setLightbox] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
+  const [letterOpened, setLetterOpened] = useState(false);
 
   // ==========================================
   // MEMUTAR MUSIK SAAT ALBUM DIBUKA
@@ -552,11 +553,12 @@ return (
         </div>
       </section>
 
+
       {/* ================================== */}
       {/* 05 - TRANSITION TO COUPLE */}
       {/* ================================== */}
 
-      <section className="transition-section">
+      <section className="transition-section" id="transition">
         <div className="transition-decoration">✳</div>
 
         <div className="transition-content reveal">
@@ -564,23 +566,41 @@ return (
             BABAK 03 — CERITA YANG KITA RAYAKAN
           </p>
 
+          <span className="transition-number">01 / 02</span>
+
           <h2>
-            Dan di antara semua cerita itu,
+            Dari sekian banyak
             <br />
-            ada <em>cerita kalian.</em>
+            cerita yang kita punya,
+            <br />
+            ada satu cerita yang
+            <br />
+            <em>begitu istimewa.</em>
           </h2>
 
           <p>
-            Di tengah perjalanan persahabatan ini,
-            ada satu momen istimewa yang ingin kita rayakan.
-            Dua sahabat yang kini melangkah bersama
-            menuju babak kehidupan yang baru.
+            Kita telah melewati begitu banyak hal bersama.
+            Tumbuh, tertawa, berbagi cerita, dan menciptakan
+            kenangan yang akan selalu kita bawa.
 
             <br /><br />
 
-            Hari ini, giliran cerita Rendy dan Dilla
-            yang menjadi kenangan indah untuk kita semua.
+            Namun hari ini, ada cerita lain yang ingin
+            kita rayakan. Cerita tentang dua sahabat yang
+            kini memilih untuk berjalan bersama,
+            membangun kehidupan, dan menuliskan kisah
+            baru sebagai satu keluarga.
+
+            <br /><br />
+
+            Dan dua orang itu adalah...
           </p>
+
+          <div className="transition-names">
+            <span>RENDY</span>
+            <span className="transition-ampersand">&</span>
+            <span>DILLA</span>
+          </div>
         </div>
 
         <div className="transition-image reveal">
@@ -589,8 +609,13 @@ return (
             alt="Rendy dan Dilla"
             onClick={() => openPhoto(0, "couple")}
           />
+
+          <span className="transition-image-caption">
+            A NEW CHAPTER BEGINS
+          </span>
         </div>
       </section>
+
 
       {/* ================================== */}
       {/* 06 - COUPLE GALLERY */}
@@ -640,92 +665,117 @@ return (
         </div>
       </section>
 
-      {/* ================================== */}
-      {/* 07 - LETTER */}
-      {/* ================================== */}
 
-      <section className="letter-section" id="letter">
-        <div className="letter-inner reveal">
-          <p className="eyebrow">
-            BABAK 05 — SEBUAH SURAT DARI SAHABAT
-          </p>
+        {/* ================================== */}
+        {/* 07 - LETTER */}
+        {/* ================================== */}
 
-          <span className="letter-flower">✳</span>
+        <section className="letter-section" id="letter">
+          <div className="letter-inner reveal">
 
-          <h2>
-            Ada ucapan yang ingin kami
-            <br />
-            <em>sampaikan dari hati.</em>
-          </h2>
-
-          <div className="letter-paper">
-            <span className="letter-dear">
-              Untuk Rendy dan Dilla,
-            </span>
-
-            <p>
-              Rasanya begitu banyak cerita yang telah kita
-              lalui bersama. Dari masa sekolah, kebersamaan
-              di gereja, hingga pertemuan-pertemuan sederhana
-              yang selalu berhasil menghadirkan tawa.
+            <p className="eyebrow">
+              BABAK 05 — SEBUAH SURAT DARI SAHABAT
             </p>
 
-            <p>
-              Rendy, terima kasih sudah menjadi bagian
-              penting dari perjalanan persahabatan ini.
-              Terima kasih untuk bantuan, nasihat,
-              perhatian, dan pengingat yang selama ini
-              begitu berarti. Banyak hal yang akan selalu
-              saya hargai dari persahabatan kita.
-            </p>
+            <span className="letter-flower">✳</span>
 
-            <p>
-              Dan hari ini, kami turut bersukacita melihatmu
-              memulai perjalanan baru bersama Dilla.
-              Sebuah perjalanan yang akan menghadirkan
-              cerita, tanggung jawab, dan pengalaman
-              yang berbeda dari sebelumnya.
-            </p>
+            <h2>
+              Ada ucapan yang ingin kami
+              <br />
+              <em>sampaikan dari hati.</em>
+            </h2>
 
-            <p>
-              Rendy dan Dilla, semoga kalian selalu punya
-              kesabaran untuk saling memahami, kekuatan
-              untuk saling menguatkan, dan kasih untuk
-              tetap memilih satu sama lain dalam setiap keadaan.
-            </p>
+            {!letterOpened ? (
+              <div className="letter-envelope">
+                <div className="envelope-icon">✉</div>
 
-            <p>
-              Akan ada hari yang penuh sukacita, tetapi
-              mungkin juga ada hari yang tidak mudah.
-              Semoga kalian selalu berjalan bersama,
-              saling menjaga, dan menjadikan Tuhan
-              sebagai dasar dalam membangun kehidupan keluarga.
-            </p>
+                <p>
+                  Sebuah pesan kecil,
+                  <br />
+                  untuk dua orang yang istimewa.
+                </p>
 
-            <p>
-              Terima kasih telah menjadi bagian dari
-              cerita kami. Hari ini, izinkan kami ikut
-              merayakan salah satu babak terindah
-              dalam kehidupan kalian.
-            </p>
+                <button
+                  className="letter-open-button"
+                  onClick={() => setLetterOpened(true)}
+                >
+                  BUKA SURAT <span>♡</span>
+                </button>
+              </div>
+            ) : (
+              <div className="letter-paper letter-paper-open">
 
-            <p>
-              <strong>
-                Selamat menempuh hidup baru.
-                Berbahagialah selalu, Rendy dan Dilla.
-              </strong>
-            </p>
+                <span className="letter-dear">
+                  Untuk Rendy dan Dilla,
+                </span>
 
-            <span className="letter-end">
-              Dengan penuh kasih,
-            </span>
+                <p>
+                  Rasanya begitu banyak cerita yang telah kita
+                  lalui bersama. Dari masa sekolah, kebersamaan
+                  di gereja, hingga pertemuan-pertemuan sederhana
+                  yang selalu berhasil menghadirkan tawa.
+                </p>
 
-            <span className="letter-signature">
-              Sahabat-sahabat kalian ♡
-            </span>
+                <p>
+                  Rendy, terima kasih sudah menjadi bagian
+                  penting dari perjalanan persahabatan ini.
+                  Terima kasih untuk bantuan, nasihat,
+                  perhatian, dan pengingat yang selama ini
+                  begitu berarti. Banyak hal yang akan selalu
+                  saya hargai dari persahabatan kita.
+                </p>
+
+                <p>
+                  Dan hari ini, kami turut bersukacita melihatmu
+                  memulai perjalanan baru bersama Dilla.
+                  Sebuah perjalanan yang akan menghadirkan
+                  cerita, tanggung jawab, dan pengalaman
+                  yang berbeda dari sebelumnya.
+                </p>
+
+                <p>
+                  Rendy dan Dilla, semoga kalian selalu punya
+                  kesabaran untuk saling memahami, kekuatan
+                  untuk saling menguatkan, dan kasih untuk
+                  tetap memilih satu sama lain dalam setiap keadaan.
+                </p>
+
+                <p>
+                  Akan ada hari yang penuh sukacita, tetapi
+                  mungkin juga ada hari yang tidak mudah.
+                  Semoga kalian selalu berjalan bersama,
+                  saling menjaga, dan menjadikan Tuhan
+                  sebagai dasar dalam membangun kehidupan keluarga.
+                </p>
+
+                <p>
+                  Terima kasih telah menjadi bagian dari
+                  cerita kami. Hari ini, izinkan kami ikut
+                  merayakan salah satu babak terindah
+                  dalam kehidupan kalian.
+                </p>
+
+                <p>
+                  <strong>
+                    Selamat menempuh hidup baru.
+                    Berbahagialah selalu, Rendy dan Dilla.
+                  </strong>
+                </p>
+
+                <span className="letter-end">
+                  Dengan penuh kasih,
+                </span>
+
+                <span className="letter-signature">
+                  Sahabat-sahabat kalian ♡
+                </span>
+
+              </div>
+            )}
+
           </div>
-        </div>
-      </section>
+        </section>
+
 
       {/* ================================== */}
       {/* 08 - CLOSING */}
@@ -776,6 +826,13 @@ return (
           <span className="closing-date">
             WITH LOVE, FROM YOUR FRIENDS
           </span>
+
+          <button
+              className="closing-button"
+              onClick={() => scrollTo("home")}
+            >
+              KEMBALI KE AWAL CERITA ↑
+            </button>
         </div>
       </section>
 
