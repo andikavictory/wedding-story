@@ -524,10 +524,17 @@ h2 em {
 .story-overlay {
   background: linear-gradient(
     90deg,
-    rgba(34,25,22,.85),
-    rgba(34,25,22,.52) 50%,
-    rgba(34,25,22,.08)
+    rgba(25,18,16,.92),
+    rgba(25,18,16,.78) 65%,
+    rgba(25,18,16,.60)
   );
+}
+
+.story-content > p:not(.eyebrow) {
+  color: #f3eae2;
+  font-size: 13px;
+  line-height: 2;
+  text-shadow: 0 1px 4px rgba(0,0,0,.4);
 }
 
 .story-content {
@@ -1068,6 +1075,194 @@ body::before {
   letter-spacing: 1px;
 }
 
+/* ==================================
+   OPENING SCREEN
+================================== */
+
+.opening-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30px 24px;
+  background:
+    radial-gradient(
+      circle at 50% 35%,
+      rgba(255,255,255,.55),
+      transparent 55%
+    ),
+    #eee7db;
+  text-align: center;
+  opacity: 1;
+  visibility: visible;
+  transition:
+    opacity .9s ease,
+    visibility 0s linear 0s;
+}
+
+.opening-screen-hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition:
+    opacity .9s ease,
+    visibility 0s linear .9s;
+}
+
+.opening-content {
+  width: 100%;
+  max-width: 550px;
+  animation: openingAppear 1.2s ease both;
+}
+
+.opening-eyebrow {
+  display: block;
+  color: #956c65;
+  font-size: 9px;
+  letter-spacing: 3px;
+  line-height: 1.8;
+}
+
+.opening-ornament {
+  color: #a77c69;
+  font-size: 32px;
+  margin: 35px 0 15px;
+}
+
+.opening-content h1 {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: clamp(55px, 8vw, 85px);
+  line-height: 1.1;
+  letter-spacing: -2px;
+  color: var(--brown);
+  margin: 0 0 25px;
+}
+
+.opening-content h1 em {
+  color: var(--burgundy);
+  font-weight: 400;
+}
+
+.opening-content > p {
+  max-width: 390px;
+  margin: 0 auto;
+  color: #817267;
+  font-size: 12px;
+  line-height: 2;
+}
+
+.opening-button {
+  display: block;
+  margin: 35px auto 0;
+  padding: 15px 25px;
+  border: 1px solid var(--burgundy);
+  background: transparent;
+  color: var(--burgundy);
+  font-size: 9px;
+  letter-spacing: 2px;
+  transition: background .3s, color .3s, transform .3s;
+}
+
+.opening-button:hover {
+  background: var(--burgundy);
+  color: white;
+  transform: translateY(-3px);
+}
+
+.opening-button span {
+  margin-left: 12px;
+  font-size: 14px;
+}
+
+.opening-date {
+  display: block;
+  margin-top: 45px;
+  color: #a08d7d;
+  font-size: 9px;
+  letter-spacing: 3px;
+}
+
+.opening-music {
+  display: block;
+  margin-top: 35px;
+  color: #a08d7d;
+  font-size: 10px;
+  letter-spacing: .5px;
+}
+
+@keyframes openingAppear {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 600px) {
+  .opening-content h1 {
+    font-size: 58px;
+    letter-spacing: -1.5px;
+  }
+
+  .opening-content > p {
+    max-width: 310px;
+    font-size: 11px;
+  }
+
+  .opening-ornament {
+    margin: 25px 0 12px;
+  }
+
+  .opening-date {
+    margin-top: 35px;
+  }
+}
+
+/* ==================================
+   STORY - MOBILE IMPROVEMENT
+================================== */
+
+@media (max-width: 600px) {
+  .story-content h2 {
+    font-size: clamp(34px, 8vw, 42px);
+    line-height: 1.2;
+    letter-spacing: -1px;
+    margin: 20px 0 22px;
+  }
+
+  .story-overlay {
+    background: linear-gradient(
+      90deg,
+      rgba(25,18,16,.92),
+      rgba(25,18,16,.78) 65%,
+      rgba(25,18,16,.60)
+    );
+  }
+
+  .story-content > p:not(.eyebrow) {
+    color: #f3eae2;
+    font-size: 12px;
+    line-height: 1.9;
+    text-shadow: 0 1px 4px rgba(0,0,0,.4);
+  }
+
+  .story {
+    height: auto;
+    min-height: 750px;
+    padding: 85px 0;
+  }
+
+  .story-content {
+    margin: 0 7%;
+  }
+}
+
 @keyframes vinyl-spin {
   to {
     transform: rotate(360deg);
@@ -1287,22 +1482,32 @@ body::before {
     max-height: 850px;
   }
 
-  .story-overlay {
-    background: linear-gradient(
-      90deg,
-      rgba(34,25,22,.8),
-      rgba(34,25,22,.3)
-    );
-  }
+.story-overlay {
+  background: linear-gradient(
+    90deg,
+    rgba(25,18,16,.92),
+    rgba(25,18,16,.78) 65%,
+    rgba(25,18,16,.60)
+  );
+}
+
+.story-content > p:not(.eyebrow) {
+  color: #f3eae2;
+  font-size: 13px;
+  line-height: 2;
+  text-shadow: 0 1px 4px rgba(0,0,0,.4);
+}
 
   .story-content {
     margin: 0 7%;
   }
 
-  .story-content h2 {
-    font-size: 53px;
-    letter-spacing: -2px;
-  }
+.story-content h2 {
+  font-size: clamp(34px, 8vw, 42px);
+  line-height: 1.2;
+  letter-spacing: -1px;
+  margin: 20px 0 22px;
+}
 
   .story-number {
     font-size: 55px;

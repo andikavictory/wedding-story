@@ -70,9 +70,10 @@ function Photo({ src, alt, className = "" }) {
 // ==========================================
 
 function App() {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [lightbox, setLightbox] = useState(null);
-  const [isPlaying, setIsPlaying] = useState(false);
+    const [menuOpen, setMenuOpen] = useState(false);
+    const [lightbox, setLightbox] = useState(null);
+    const [isPlaying, setIsPlaying] = useState(false);
+    const [hasOpened, setHasOpened] = useState(false);
 
   // ==========================================
   // ANIMASI REVEAL SAAT SCROLL
@@ -301,12 +302,80 @@ useEffect(() => {
     setMenuOpen(false);
   };
 
+  // MEMBUKA ALBUM KENANGAN DAN MEMUTAR MUSIK
+const openExperience = () => {
+  const audio = document.getElementById("wedding-audio");
+
+  if (audio) {
+    audio.volume = 0.65;
+
+    const playPromise = audio.play();
+
+    if (playPromise !== undefined) {
+      playPromise
+        .then(() => setIsPlaying(true))
+        .catch((error) => {
+          console.log("Musik belum dapat diputar:", error);
+          setIsPlaying(false);
+        });
+    }
+  }
+
+  setHasOpened(true);
+};
+
   // ==========================================
   // TAMPILAN WEBSITE
   // ==========================================
 
   return (
     <main>
+
+            {/* ================================== */}
+      {/* OPENING SCREEN */}
+      {/* ================================== */}
+
+      <div
+        className={`opening-screen ${
+          hasOpened ? "opening-screen-hidden" : ""
+        }`}
+      >
+        <div className="opening-content">
+          <span className="opening-eyebrow">
+            A CELEBRATION OF LOVE & FRIENDSHIP
+          </span>
+
+          <div className="opening-ornament">✳</div>
+
+          <h1>
+            Untuk Rendy
+            <br />
+            <em>& Dilla.</em>
+          </h1>
+
+          <p>
+            Dari begitu banyak cerita yang telah kita lalui,
+            hari ini ada satu cerita indah yang ingin
+            kita rayakan bersama.
+          </p>
+
+          <button
+            className="opening-button"
+            onClick={openExperience}
+          >
+            RAYAKAN HARI INI <span>♡</span>
+          </button>
+
+          <span className="opening-date">
+            30 · 10 · 2026
+          </span>
+
+          <span className="opening-music">
+            ♫ Dengarkan musik dan lihat kenangan
+          </span>
+        </div>
+      </div>
+
       {/* ================================== */}
       {/* NAVIGATION */}
       {/* ================================== */}
@@ -400,7 +469,7 @@ useEffect(() => {
         <h2 className="intro-heading">
           Berawal dari pertemuan,
           <br />
-          tumbuh menjadi <em>persahabatan.</em>git init
+          tumbuh menjadi <em>persahabatan.</em>
         </h2>
 
         <p className="intro-text reveal">
@@ -766,20 +835,15 @@ useEffect(() => {
         </div>
       )}
 
-      {/* ================================== */}
+       {/* ================================== */}
       {/* BACKGROUND MUSIC */}
       {/* ================================== */}
 
       <audio
         id="wedding-audio"
         src="/audio/wedding-song.mpeg"
-        autoPlay
         loop
-        onCanPlay={(event) => {
-          event.currentTarget.play().catch((error) => {
-            console.log("Autoplay diblokir browser:", error);
-          });
-        }}
+        preload="auto"
         onPlay={() => setIsPlaying(true)}
         onPause={() => setIsPlaying(false)}
       />
