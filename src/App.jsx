@@ -194,6 +194,7 @@ useEffect(() => {
   // ANIMASI GSAP
   // ==========================================
 
+
   useEffect(() => {
     const ctx = gsap.context(() => {
       const mm = gsap.matchMedia();
@@ -201,34 +202,37 @@ useEffect(() => {
       mm.add(
         "(prefers-reduced-motion: no-preference)",
         () => {
-          // Hero image parallax
-          gsap.fromTo(
-            ".hero-image img",
-            { scale: 1.12, yPercent: -4 },
-            {
-              scale: 1,
-              yPercent: 4,
-              ease: "none",
-              scrollTrigger: {
-                trigger: ".hero",
-                start: "top top",
-                end: "bottom top",
-                scrub: 1,
-              },
-            }
-          );
 
-          // Hero text
-          gsap.from(".hero-content > *", {
-            opacity: 0,
-            y: 35,
-            duration: 1.1,
-            stagger: 0.2,
-            ease: "power3.out",
-            delay: 0.2,
+                    // ==================================
+          // HERO & CLOSING PARALLAX
+          // ==================================
+
+          gsap.utils.toArray([
+            ".hero-image img",
+            ".closing-image img"
+          ]).forEach((image) => {
+            const section = image.closest(".hero, .closing");
+
+            gsap.fromTo(
+              image,
+              { yPercent: -8 },
+              {
+                yPercent: 8,
+                ease: "none",
+                scrollTrigger: {
+                  trigger: section,
+                  start: "top bottom",
+                  end: "bottom top",
+                  scrub: 1,
+                },
+              }
+            );
           });
 
-          // Gallery memories
+          // ==================================
+          // MEMORY GALLERY
+          // ==================================
+
           gsap.from(".memory-tile", {
             opacity: 0,
             y: 55,
@@ -243,7 +247,10 @@ useEffect(() => {
             },
           });
 
-          // Couple gallery - optimized
+          // ==================================
+          // COUPLE GALLERY
+          // ==================================
+
           gsap.from(".couple-photo", {
             opacity: 0,
             y: 25,
@@ -257,21 +264,8 @@ useEffect(() => {
             },
           });
 
-          // Closing parallax
-          gsap.fromTo(
-            ".closing-image img",
-            { scale: 1.12 },
-            {
-              scale: 1,
-              ease: "none",
-              scrollTrigger: {
-                trigger: ".closing",
-                start: "top bottom",
-                end: "bottom top",
-                scrub: 1,
-              },
-            }
-          );
+          
+
         }
       );
 
@@ -280,6 +274,7 @@ useEffect(() => {
 
     return () => ctx.revert();
   }, []);
+
 
   // ==========================================
   // TUTUP LIGHTBOX DENGAN ESCAPE
@@ -349,25 +344,25 @@ const changePhoto = (direction) => {
 };
 
 
-  // ==========================================
-  // LOCK SCROLL WHEN LIGHTBOX IS OPEN
-  // ==========================================
 
-  useEffect(() => {
-    if (lightbox) {
-      document.body.style.overflow = "hidden";
-      document.documentElement.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-      document.documentElement.style.overflow = "";
-    }
+// LOCK SCROLL WHEN LIGHTBOX IS OPEN
+useEffect(() => {
+  if (!lightbox) return;
 
-    return () => {
-      document.body.style.overflow = "";
-      document.documentElement.style.overflow = "";
-    };
-  }, [lightbox]);
+  // Simpan kondisi overflow sebelumnya
+  const previousBodyOverflow = document.body.style.overflow;
+  const previousHtmlOverflow = document.documentElement.style.overflow;
 
+  // Kunci scroll halaman
+  document.body.style.overflow = "hidden";
+  document.documentElement.style.overflow = "hidden";
+
+  return () => {
+    // Kembalikan kondisi sebelumnya
+    document.body.style.overflow = previousBodyOverflow;
+    document.documentElement.style.overflow = previousHtmlOverflow;
+  };
+}, [Boolean(lightbox)]);
 
 return (
   <main>
@@ -486,8 +481,8 @@ return (
 
       <section className="hero" id="home">
         <div className="hero-image">
-          <Photo
-            src="/images/memories/memory_01.webp"
+          <img
+            src="/images/couple/footer.webp"
             alt="Kenangan bersama sahabat"
           />
         </div>
@@ -593,6 +588,7 @@ return (
       <div className="memory-gallery-grid">
         {memories.map((item, index) => (
           <button
+            type="button"
             className={`memory-tile memory-tile-${(index % 6) + 1}`}
             key={item.image}
             onClick={() => openPhoto(index, "memory")}
@@ -716,6 +712,7 @@ return (
         <div className="couple-gallery-grid">
           {couplePhotos.map((item, index) => (
             <button
+              type="button"
               className={`couple-photo couple-photo-${(index % 5) + 1}`}
               key={item.image}
               onClick={() => openPhoto(index, "couple")}
@@ -856,12 +853,12 @@ return (
       {/* ================================== */}
 
       <section className="closing">
-        <div className="closing-image">
-          <Photo
-            src="/images/couple/footer.webp"
-            alt="Rendy dan Dilla"
-          />
-        </div>
+      <div className="closing-image">
+        <img
+          src="/images/couple/footer.webp"
+          alt="Rendy dan Dilla"
+        />
+      </div>
 
         <div className="closing-overlay" />
 
