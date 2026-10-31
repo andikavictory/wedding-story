@@ -775,7 +775,7 @@ return (
                   Terima kasih untuk bantuan, nasihat,
                   perhatian, dan pengingat yang selama ini
                   begitu berarti. Banyak hal yang akan selalu
-                  saya hargai dari persahabatan kita.
+                  aku hargai dari persahabatan kita.
                 </p>
 
                 <p>
