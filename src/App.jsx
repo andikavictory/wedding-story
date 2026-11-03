@@ -482,7 +482,7 @@ return (
       <section className="hero" id="home">
         <div className="hero-image">
           <img
-            src="/images/couple/footer.webp"
+            src="/images/cover.webp"
             alt="Kenangan bersama sahabat"
           />
         </div>
