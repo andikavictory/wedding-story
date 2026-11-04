@@ -11,7 +11,7 @@ gsap.registerPlugin(ScrollTrigger);
 // ==========================================
 
 const memories = [
-  { image: "memory_01.webp", caption: "Awal dari banyak cerita" },
+  { image: "memory_01.webp", caption: "Awal dari banyak cerita"},
   { image: "memory_02.webp", caption: "Tawa yang selalu dirindukan" },
   { image: "memory_03.webp", caption: "Tidak harus selalu lengkap" },
   { image: "memory_04.webp", caption: "Momen sederhana, cerita luar biasa" },
@@ -606,6 +606,7 @@ return (
             <Photo
               src={`/images/memories/${item.image}`}
               alt={item.caption}
+              style={{ objectPosition: item.position || "center center" }}
             />
 
             <div className="memory-caption">
