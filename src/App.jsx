@@ -434,7 +434,7 @@ return (
           </button>
 
           <span className="opening-date">
-            30 · 10 · 2026
+            15 · 11 · 2026
           </span>
 
           <span className="opening-music">
@@ -510,7 +510,7 @@ return (
 
         <div className="hero-bottom">
           <span>DIBUAT DENGAN PENUH KASIH</span>
-          <span>30 · 10 · 2026</span>
+          <span>15 · 11 · 2026</span>
           <span>GULIR UNTUK MENGENANG ↓</span>
         </div>
       </section>
