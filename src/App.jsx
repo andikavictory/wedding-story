@@ -83,6 +83,81 @@ function App() {
   const [scrollProgress, setScrollProgress] = useState(0);
   const [letterOpened, setLetterOpened] = useState(false);
 
+
+  
+useEffect(() => {
+  // Jalankan setelah surat dibuka
+  if (!letterOpened) return;
+
+  let player;
+  let cancelled = false;
+
+  const iframe = document.querySelector(".youtube-frame iframe");
+  if (!iframe) return;
+
+  const createPlayer = () => {
+    if (cancelled || !window.YT?.Player) return;
+
+    player = new window.YT.Player(iframe, {
+      events: {
+                onStateChange: (event) => {
+                  const audio = document.getElementById("wedding-audio");
+
+                  if (!audio) return;
+
+                  const state = event.data;
+
+                  // Video mulai diputar: hentikan musik website
+                  if (state === window.YT.PlayerState.PLAYING) {
+                    audio.pause();
+                  }
+
+                  // Video dijeda atau selesai: lanjutkan musik website
+                  if (
+                    state === window.YT.PlayerState.PAUSED ||
+                    state === window.YT.PlayerState.ENDED
+                  ) {
+                    if (audio.paused) {
+                      audio.play().catch((error) => {
+                        console.log("Musik belum dapat dilanjutkan:", error);
+                      });
+                    }
+                  }
+                },
+      },
+    });
+  };
+
+  // API sudah tersedia
+  if (window.YT?.Player) {
+    createPlayer();
+  } else {
+    // API belum tersedia
+    const previousCallback = window.onYouTubeIframeAPIReady;
+
+    window.onYouTubeIframeAPIReady = () => {
+      createPlayer();
+      previousCallback?.();
+    };
+
+    // Muat API jika belum ada
+    const existingScript = document.querySelector(
+      'script[src="https://www.youtube.com/iframe_api"]'
+    );
+
+    if (!existingScript) {
+      const script = document.createElement("script");
+      script.src = "https://www.youtube.com/iframe_api";
+      document.body.appendChild(script);
+    }
+  }
+
+  return () => {
+    cancelled = true;
+    if (player?.destroy) player.destroy();
+  };
+}, [letterOpened]);
+
   
   // ==========================================
   // LOADING SCREEN
@@ -833,6 +908,35 @@ return (
                     Berbahagialah selalu, Rendy dan Dilla.
                   </strong>
                 </p>
+
+
+                {/* VIDEO KENANGAN */}
+                <div className="letter-video">
+                  <span className="letter-video-label">
+                    SEBUAH VIDEO DARI KAMI
+                  </span>
+
+                  <h3>
+                    Karena ada cerita yang
+                    <br />
+                    <em>ingin kita kenang kembali.</em>
+                  </h3>
+
+                  <div className="youtube-frame">
+                    <iframe
+                      src={`https://www.youtube-nocookie.com/embed/8kFjd2e4CVc?enablejsapi=1&origin=${window.location.origin}`}
+                      title="Video Kenangan Gondal Gandul & Kembar Suram"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      referrerPolicy="strict-origin-when-cross-origin"
+                      allowFullScreen
+                    />
+                  </div>
+
+                  <p className="letter-video-caption">
+                    A little memory from all of us ♡
+                  </p>
+                </div>
+
 
                 <span className="letter-end">
                   Dengan penuh kasih,
